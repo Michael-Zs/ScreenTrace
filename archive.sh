@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SHOTS_PATH="shots/"
+ARCHIVE_PATH="archive/"
 
 # match time frome date-1, 4AM to date, 4AM
 get_shots() {
@@ -19,12 +20,10 @@ get_shots() {
     -type f \
     -newermt "$start" \
     ! -newermt "$end" \
-    -exec cp -t "$TMP_PATH" -- {} +
+    -exec mv -t "$TMP_PATH" -- {} +
 
-  cd $TMP_PATH
-  opencode run "read ../prompt.md, follow it's instructions"
-  hermes send --to qqbot "$(cat ../dailyreport/$1.md)"
-  cd ..
+  tar -czvf $TMP_PATH.tar.gz $TMP_PATH/
+  mv $TMP_PATH.tar.gz $ARCHIVE_PATH
   rm $TMP_PATH -r
 }
 
