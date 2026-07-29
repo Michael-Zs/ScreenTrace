@@ -1,0 +1,41 @@
+#!/bin/bash
+
+SHOTS_PATH="shots/"
+ARCHIVE_PATH="archive/"
+
+# match time frome date-1, 4AM to date, 4AM
+get_shots() {
+  local date="${1:?Usage: get_shots YYYY-MM-DD}"
+  local start end
+
+  start="$(date -d "$date 04:00:00" '+%Y-%m-%d %H:%M:%S')" || return 1
+  end="$(date -d "$date +1 day 04:00:00" '+%Y-%m-%d %H:%M:%S')" || return 1
+
+  TMP_PATH="tmp-$1"
+
+  mkdir $TMP_PATH
+
+  find "$SHOTS_PATH" \
+    -maxdepth 1 \
+    -type f \
+    -newermt "$start" \
+    ! -newermt "$end" \
+    -exec mv -t "$TMP_PATH" -- {} +
+
+  tar -czvf $TMP_PATH.tar.gz $TMP_PATH/
+  cd $TMP_PATH
+  if [[ $2 != "--skip" ]]; then
+    opencode run "read ../prompt.md, follow it's instructions"
+  fi
+  cd ..
+  mv $TMP_PATH.tar.gz $ARCHIVE_PATH
+  rm $TMP_PATH -r
+}
+
+if [[ -z $1 ]]; then
+  echo "Usage: $0 2026-07-29 --skip"
+  echo "use --skip to skip summary generation"
+  exit
+fi
+
+get_shots $1 $2
