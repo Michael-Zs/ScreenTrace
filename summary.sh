@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 无论从哪里运行，都先进入当前脚本所在目录
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 SHOTS_PATH="shots/"
 
 # match time frome date-1, 4AM to date, 4AM
@@ -23,7 +27,7 @@ get_shots() {
 
   cd $TMP_PATH
   opencode run "read ../prompt.md, follow it's instructions"
-  hermes send --to qqbot "$(cat ../dailyreport/$1.md)"
+  ../send-to-qq.sh $1
   cd ..
   rm $TMP_PATH -r
 }

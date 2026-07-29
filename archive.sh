@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 无论从哪里运行，都先进入当前脚本所在目录
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 SHOTS_PATH="shots/"
 ARCHIVE_PATH="archive/"
 

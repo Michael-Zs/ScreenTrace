@@ -2,3 +2,4 @@
 - [x] auto analysis by agent, and sent via hermes channel
 - [ ] automatically archive past screenshots
 - [ ] split the image --> doc process and doc --> report process
+- [x] fix: hermes send half len
