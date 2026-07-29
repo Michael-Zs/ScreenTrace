@@ -26,6 +26,7 @@ get_shots() {
   cd $TMP_PATH
   if [[ $2 != "--skip" ]]; then
     opencode run "read ../prompt.md, follow it's instructions"
+    hermes send --to qqbot "$(cat ../dailyreport/$1.md)"
   fi
   cd ..
   mv $TMP_PATH.tar.gz $ARCHIVE_PATH
