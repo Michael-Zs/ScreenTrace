@@ -23,6 +23,7 @@ get_shots() {
     -exec mv -t "$TMP_PATH" -- {} +
 
   tar -czvf $TMP_PATH.tar.gz $TMP_PATH/
+  mkdir -p $ARCHIVE_PATH
   mv $TMP_PATH.tar.gz $ARCHIVE_PATH
   rm $TMP_PATH -r
 }
